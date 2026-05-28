@@ -208,7 +208,8 @@
 
   .guestbook-msg {
     padding: 20px 0; border-bottom: 1px solid var(--border);
-    animation: fadeUp 0.5s ease;
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0; transform: translateY(10px);
   }
   .guestbook-msg:last-child { border-bottom: none; }
   .guestbook-msg-header {
@@ -566,6 +567,10 @@ async function postGuestbook() {
 
 // Load guestbook on page load
 loadGuestbook();
+// Enter key to submit
+document.getElementById('guestbookInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); postGuestbook(); }
+});
 </script>
 </body>
 </html>
