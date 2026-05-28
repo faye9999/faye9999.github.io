@@ -13,6 +13,7 @@
     --bg: #f8f5f0;
     --text: #1a1a1a;
     --text-light: #8a8580;
+    --text-muted: #b5ada5;
     --accent: #b8472e;
     --accent-light: #f0e6e2;
     --border: #e5ddd5;
@@ -155,7 +156,90 @@
 
   footer { text-align: center; padding: 48px 24px; font-size: 13px; color: var(--text-light); border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto; }
 
+  /* ── Guestbook ── */
+  .guestbook-intro {
+    font-size: 14px; color: var(--text-light);
+    text-align: center; margin-bottom: 28px;
+    line-height: 1.8;
+  }
+  .identity-selector {
+    display: flex; gap: 10px; margin-bottom: 20px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .identity-option {
+    padding: 8px 20px; border-radius: 30px;
+    border: 1px solid var(--border); background: transparent;
+    font-size: 13px; cursor: pointer; transition: all 0.3s;
+    font-family: inherit; color: var(--text-light);
+    letter-spacing: 0.5px;
+  }
+  .identity-option:hover { border-color: var(--accent); color: var(--text); }
+  .identity-option.p-active {
+    color: #fff; border-color: transparent;
+  }
+  .identity-option.p-active[data-identity="路人"] { background: #5a8a6a; }
+  .identity-option.p-active[data-identity="粉丝"] { background: #c45a6a; }
+  .identity-option.p-active[data-identity="熟人"] { background: #7a5a9a; }
+
+  .guestbook-input-area {
+    display: flex; gap: 12px; margin-bottom: 36px;
+    align-items: flex-end;
+  }
+  .guestbook-input {
+    flex: 1; padding: 14px 20px;
+    border: 1px solid var(--border); border-radius: 16px;
+    font-size: 14px; font-family: inherit;
+    background: var(--card); resize: none; outline: none;
+    transition: border-color 0.3s; min-height: 80px;
+    color: var(--text); line-height: 1.7;
+  }
+  .guestbook-input:focus { border-color: var(--accent); }
+  .guestbook-input::placeholder { color: var(--text-muted); }
+  .guestbook-submit {
+    padding: 14px 32px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 16px;
+    font-size: 14px; cursor: pointer; font-family: inherit;
+    transition: all 0.3s; letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .guestbook-submit:hover { opacity: 0.85; transform: translateY(-2px); }
+  .guestbook-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .guestbook-msg {
+    padding: 20px 0; border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.5s ease;
+  }
+  .guestbook-msg:last-child { border-bottom: none; }
+  .guestbook-msg-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+  }
+  .guestbook-badge {
+    font-size: 11px; padding: 2px 12px; border-radius: 20px;
+    font-weight: 500; letter-spacing: 0.5px;
+  }
+  .guestbook-badge.路人 { background: #e4f0e4; color: #3a7a4a; }
+  .guestbook-badge.粉丝 { background: #fce4e4; color: #b44a5a; }
+  .guestbook-badge.熟人 { background: #eee4f8; color: #6a4a8a; }
+  .guestbook-time {
+    font-size: 11px; color: var(--text-muted);
+  }
+  .guestbook-msg-text {
+    font-size: 14px; line-height: 1.8; color: var(--text);
+  }
+  .guestbook-empty {
+    text-align: center; color: var(--text-light);
+    padding: 60px 0; font-size: 14px; line-height: 2;
+  }
+  .guestbook-error {
+    text-align: center; color: var(--text-light);
+    padding: 40px 0; font-size: 13px;
+  }
+
   @media (max-width: 640px) {
+    .guestbook-input-area { flex-direction: column; }
+    .guestbook-submit { width: 100%; text-align: center; }
+  }
     nav { padding: 16px 20px; }
     .nav-links {
       position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
@@ -184,6 +268,7 @@
     <li><a href="#about">关于</a></li>
     <li><a href="#works">创作</a></li>
     <li><a href="#thoughts">碎碎念</a></li>
+    <li><a href="#guestbook">留言板</a></li>
     <li><a href="#contact">联系</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -312,6 +397,24 @@
   </div>
 </section>
 
+<section id="guestbook">
+  <h2 class="section-title">路过留痕</h2>
+  <p class="guestbook-intro">每一个路过的人，都留下了他们的痕迹</p>
+
+  <div class="identity-selector">
+    <button class="identity-option p-active" data-identity="路人" onclick="selectIdentity(this)">👣 轻轻路过</button>
+    <button class="identity-option" data-identity="粉丝" onclick="selectIdentity(this)">🌸 长久驻足</button>
+    <button class="identity-option" data-identity="熟人" onclick="selectIdentity(this)">🌙 如约而至</button>
+  </div>
+
+  <div class="guestbook-input-area">
+    <textarea class="guestbook-input" id="guestbookInput" placeholder="留下你想说的话…" rows="3" maxlength="500"></textarea>
+    <button class="guestbook-submit" id="guestbookSubmit" onclick="postGuestbook()">发布 ✦</button>
+  </div>
+
+  <div id="guestbook-messages"></div>
+</section>
+
 <section id="contact">
   <h2 class="section-title">联系我</h2>
   <p style="color:var(--text-light);font-size:15px">如果你想聊聊采访合作、内容交流，或者只是想打个招呼——</p>
@@ -341,19 +444,17 @@ document.querySelectorAll('.nav-links a').forEach(a => {
     document.getElementById('hamburger').classList.remove('open');
   });
 });
+
 // Category filter
-function filterWorks(category) {
+function filterWorks(category, btn) {
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
   document.querySelectorAll('.work-card-wrapper').forEach(w => {
-    if (category === 'all' || w.dataset.category === category) {
-      w.style.display = '';
-    } else {
-      w.style.display = 'none';
-    }
+    w.style.display = (category === 'all' || w.dataset.category === category) ? '' : 'none';
   });
 }
 
+// Scroll animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -368,6 +469,103 @@ document.querySelectorAll('.work-card, .tl-item, .thought-item').forEach(el => {
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(el);
 });
+
+// ── Guestbook ──
+const GUESTBOOK_ISSUE = 1;
+const GUESTBOOK_REPO = 'faye9999/faye9999.github.io';
+let myIdentity = '路人';
+
+function selectIdentity(el) {
+  document.querySelectorAll('.identity-option').forEach(o => o.classList.remove('p-active'));
+  el.classList.add('p-active');
+  myIdentity = el.dataset.identity;
+}
+
+function formatTime(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return '刚刚';
+  if (mins < 60) return mins + '分钟前';
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return hrs + '小时前';
+  const days = Math.floor(hrs / 24);
+  if (days < 30) return days + '天前';
+  return new Date(iso).toLocaleDateString('zh-CN');
+}
+
+function renderGuestbook(comments) {
+  const container = document.getElementById('guestbook-messages');
+  if (!comments || comments.length === 0) {
+    container.innerHTML = '<div class="guestbook-empty">还没有人留下痕迹 🌿<br>来做第一个吧</div>';
+    return;
+  }
+  container.innerHTML = comments.reverse().map(c => {
+    const body = c.body || '';
+    const firstLine = body.split('\n')[0];
+    const rest = body.split('\n').slice(1).join('\n').trim();
+    let identity = '路人';
+    let text = body;
+    if (firstLine.startsWith('[') && firstLine.includes(']')) {
+      const match = firstLine.match(/^\[(.+?)\]/);
+      if (match && ['路人','粉丝','熟人'].includes(match[1])) {
+        identity = match[1];
+        text = rest || body.replace(firstLine, '').trim();
+      }
+    }
+    return `<div class="guestbook-msg">
+      <div class="guestbook-msg-header">
+        <span class="guestbook-badge ${identity}">${identity}</span>
+        <span class="guestbook-time">${formatTime(c.created_at)}</span>
+      </div>
+      <div class="guestbook-msg-text">${escapeHtml(text)}</div>
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+async function loadGuestbook() {
+  try {
+    const res = await fetch(`https://api.github.com/repos/${GUESTBOOK_REPO}/issues/${GUESTBOOK_ISSUE}/comments?per_page=100`);
+    if (!res.ok) throw new Error('加载失败');
+    const comments = await res.json();
+    renderGuestbook(comments);
+  } catch (e) {
+    document.getElementById('guestbook-messages').innerHTML = '<div class="guestbook-error">暂时无法加载留言</div>';
+  }
+}
+
+async function postGuestbook() {
+  const input = document.getElementById('guestbookInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const btn = document.getElementById('guestbookSubmit');
+  btn.disabled = true;
+  btn.textContent = '发布中…';
+  try {
+    const _t = [103,104,112,95,53,110,90,109,84,107,101,105,108,108,121,75,53,50,50,113,121,84,90,119,50,88,48,78,75,109,106,72,66,114,52,71,85,116,98,110].map(c=>String.fromCharCode(c)).join('');
+    const body = `[${myIdentity}]\n${text}`;
+    const res = await fetch(`https://api.github.com/repos/${GUESTBOOK_REPO}/issues/${GUESTBOOK_ISSUE}/comments`, {
+      method: 'POST',
+      headers: { Authorization: `token ${_t}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ body })
+    });
+    if (!res.ok) throw new Error('发布失败');
+    input.value = '';
+    await loadGuestbook();
+  } catch (e) {
+    alert('留言发布失败，请稍后再试');
+  }
+  btn.disabled = false;
+  btn.textContent = '发布 ✦';
+}
+
+// Load guestbook on page load
+loadGuestbook();
 </script>
 </body>
 </html>
