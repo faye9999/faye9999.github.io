@@ -119,9 +119,10 @@
   .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
   .work-card {
     background: var(--card); border-radius: 16px; padding: 28px 24px;
-    transition: transform 0.3s, box-shadow 0.3s; cursor: default; border: 1px solid var(--border);
+    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s; cursor: default; border: 1px solid var(--border);
   }
   .work-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .work-card.hidden { display: none; }
   .work-tag {
     display: inline-block; font-size: 11px; color: var(--accent);
     background: var(--accent-light); padding: 2px 12px; border-radius: 20px;
@@ -129,6 +130,13 @@
   }
   .work-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
   .work-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+
+  /* Category filter */
+  .filter-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .filter-tab { padding: 6px 20px; border-radius: 30px; border: 1px solid var(--border); background: transparent; font-size: 13px; color: var(--text-light); cursor: pointer; transition: all 0.3s; font-family: inherit; }
+  .filter-tab:hover { border-color: var(--accent); color: var(--text); }
+  .filter-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .work-card-wrapper { transition: opacity 0.3s; }
 
   .thought-item { padding: 24px 0; border-bottom: 1px solid var(--border); }
   .thought-item:last-child { border-bottom: none; }
@@ -221,49 +229,67 @@
 
 <section id="works">
   <h2 class="section-title">创作</h2>
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterWorks('all')">全部</button>
+    <button class="filter-tab" onclick="filterWorks('growth')">成长感悟</button>
+    <button class="filter-tab" onclick="filterWorks('philosophy')">哲学视角</button>
+    <button class="filter-tab" onclick="filterWorks('society')">社会观点</button>
+  </div>
   <div class="works-grid">
+    <div class="work-card-wrapper" data-category="growth">
     <a href="https://mp.weixin.qq.com/s/szHkV5Hf5MWYoNntBXKACw" target="_blank" style="text-decoration:none;color:inherit">
     <div class="work-card">
-      <div class="work-tag">文章</div>
+      <div class="work-tag">成长感悟</div>
       <h3>爱、自由、生命、金钱：我的价值观排序</h3>
       <p>快要30岁的我，决定把人生的第一顺位留给"爱"。</p>
     </div>
     </a>
+    </div>
+    <div class="work-card-wrapper" data-category="growth">
     <a href="https://mp.weixin.qq.com/s/jvK-TPPSD8AYV3GMntXHjg" target="_blank" style="text-decoration:none;color:inherit">
     <div class="work-card">
-      <div class="work-tag">文章</div>
+      <div class="work-tag">成长感悟</div>
       <h3>体制内五年的第三种活法</h3>
       <p>不辞职，但也不混日子。五年服务期的另一种打开方式。</p>
     </div>
     </a>
+    </div>
+    <div class="work-card-wrapper" data-category="growth">
     <a href="https://mp.weixin.qq.com/s/5KzaSJM9n0m3TeYEHbeqCA" target="_blank" style="text-decoration:none;color:inherit">
     <div class="work-card">
-      <div class="work-tag">文章</div>
+      <div class="work-tag">成长感悟</div>
       <h3>别劝我稳定了，我决定在奥德赛时期"乱活"</h3>
       <p>奥德赛时期的自由与探索。</p>
     </div>
     </a>
+    </div>
+    <div class="work-card-wrapper" data-category="philosophy">
     <a href="https://mp.weixin.qq.com/s/Pmqkx_T-p0sMtAHjw4_Lsg" target="_blank" style="text-decoration:none;color:inherit">
     <div class="work-card">
-      <div class="work-tag">文章</div>
+      <div class="work-tag">哲学视角</div>
       <h3>命运：你想拥有什么，先要"成为"那个拥有它的人</h3>
       <p>拥有之前，先成为。</p>
     </div>
     </a>
+    </div>
+    <div class="work-card-wrapper" data-category="philosophy">
     <a href="https://mp.weixin.qq.com/s/oQuU05iKu2ley-V-cctXXg" target="_blank" style="text-decoration:none;color:inherit">
     <div class="work-card">
-      <div class="work-tag">文章</div>
+      <div class="work-tag">哲学视角</div>
       <h3>时间真相</h3>
       <p>关于时间的另一种理解。</p>
     </div>
     </a>
+    </div>
+    <div class="work-card-wrapper" data-category="growth">
     <a href="https://mp.weixin.qq.com/s/Ep6xagqo3goFbmAUzB60HQ" target="_blank" style="text-decoration:none;color:inherit">
     <div class="work-card">
-      <div class="work-tag">文章</div>
+      <div class="work-tag">成长感悟</div>
       <h3>我的人生 没有什么必须要做的事......除了成为自己</h3>
       <p>唯一必须要做的事。</p>
     </div>
     </a>
+    </div>
   </div>
 </section>
 
@@ -314,6 +340,19 @@ document.querySelectorAll('.nav-links a').forEach(a => {
     document.getElementById('hamburger').classList.remove('open');
   });
 });
+// Category filter
+function filterWorks(category) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.work-card-wrapper').forEach(w => {
+    if (category === 'all' || w.dataset.category === category) {
+      w.style.display = '';
+    } else {
+      w.style.display = 'none';
+    }
+  });
+}
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
