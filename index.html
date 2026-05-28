@@ -19,21 +19,16 @@
   }
 
   body {
-    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.8;
   }
 
-  /* Nav */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     background: rgba(248,245,240,0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -44,18 +39,12 @@
   .nav-logo { font-weight: 600; font-size: 18px; letter-spacing: 1px; }
   .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-links a {
-    text-decoration: none;
-    color: var(--text-light);
-    font-size: 14px;
-    font-weight: 400;
-    transition: color 0.2s;
-    letter-spacing: 0.5px;
-    position: relative;
+    text-decoration: none; color: var(--text-light); font-size: 14px;
+    transition: color 0.2s; letter-spacing: 0.5px; position: relative;
   }
   .nav-links a::after {
     content: '';
-    position: absolute;
-    bottom: -4px; left: 0;
+    position: absolute; bottom: -4px; left: 0;
     width: 0; height: 1.5px;
     background: var(--accent);
     transition: width 0.3s;
@@ -66,209 +55,102 @@
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
   .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: 0.3s; }
 
-  /* Hero */
   .hero {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 120px 24px 80px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 120px 24px 80px;
   }
   .hero-name {
-    font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', serif;
+    font-family: 'STSong', 'SimSun', serif;
     font-size: clamp(36px, 6vw, 64px);
-    font-weight: 700;
-    letter-spacing: 4px;
-    margin-bottom: 16px;
-    opacity: 0;
-    transform: translateY(20px);
+    font-weight: 700; letter-spacing: 4px; margin-bottom: 16px;
+    opacity: 0; transform: translateY(20px);
     animation: fadeUp 0.8s ease forwards;
   }
   .hero-tagline {
     font-size: clamp(16px, 2vw, 22px);
-    color: var(--text-light);
-    font-weight: 300;
-    letter-spacing: 2px;
+    color: var(--text-light); font-weight: 300; letter-spacing: 2px;
     max-width: 500px;
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 0; transform: translateY(20px);
     animation: fadeUp 0.8s ease 0.2s forwards;
   }
   .hero-desc {
-    margin-top: 32px;
-    font-size: 15px;
-    color: var(--text-light);
-    max-width: 460px;
-    line-height: 2;
-    opacity: 0;
-    transform: translateY(20px);
+    margin-top: 32px; font-size: 15px; color: var(--text-light);
+    max-width: 460px; line-height: 2;
+    opacity: 0; transform: translateY(20px);
     animation: fadeUp 0.8s ease 0.4s forwards;
   }
   .scroll-hint {
-    margin-top: 60px;
-    font-size: 12px;
-    color: var(--text-light);
-    letter-spacing: 2px;
-    animation: pulse 2s infinite;
-    opacity: 0;
+    margin-top: 60px; font-size: 12px; color: var(--text-light); letter-spacing: 2px;
     animation: fadeUp 0.8s ease 0.6s forwards, pulse 2s 0.8s infinite;
   }
 
   @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-  }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
 
-  /* Sections */
-  section {
-    padding: 100px 24px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
+  section { padding: 100px 24px; max-width: 800px; margin: 0 auto; }
   .section-title {
-    font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', serif;
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 48px;
-    position: relative;
-    display: inline-block;
+    font-family: 'STSong', 'SimSun', serif;
+    font-size: 28px; font-weight: 600; margin-bottom: 48px;
+    position: relative; display: inline-block;
   }
   .section-title::after {
     content: '';
-    position: absolute;
-    bottom: -8px; left: 0;
-    width: 40px; height: 3px;
-    background: var(--accent);
+    position: absolute; bottom: -8px; left: 0;
+    width: 40px; height: 3px; background: var(--accent);
   }
 
-  /* Timeline */
   .timeline { position: relative; padding-left: 32px; }
   .timeline::before {
     content: '';
-    position: absolute;
-    left: 7px; top: 8px; bottom: 8px;
-    width: 1.5px;
-    background: var(--border);
+    position: absolute; left: 7px; top: 8px; bottom: 8px;
+    width: 1.5px; background: var(--border);
   }
   .tl-item { position: relative; margin-bottom: 36px; }
   .tl-dot {
-    position: absolute;
-    left: -28px; top: 6px;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 3px solid var(--bg);
+    position: absolute; left: -28px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--bg);
   }
-  .tl-year {
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
+  .tl-year { font-size: 13px; color: var(--accent); font-weight: 500; letter-spacing: 1px; margin-bottom: 4px; }
   .tl-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
   .tl-desc { font-size: 14px; color: var(--text-light); }
 
-  /* Works grid */
-  .works-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-  }
+  .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
   .work-card {
-    background: var(--card);
-    border-radius: 16px;
-    padding: 28px 24px;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: default;
-    border: 1px solid var(--border);
+    background: var(--card); border-radius: 16px; padding: 28px 24px;
+    transition: transform 0.3s, box-shadow 0.3s; cursor: default; border: 1px solid var(--border);
   }
-  .work-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-  }
+  .work-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
   .work-tag {
-    display: inline-block;
-    font-size: 11px;
-    color: var(--accent);
-    background: var(--accent-light);
-    padding: 2px 12px;
-    border-radius: 20px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    margin-bottom: 12px;
+    display: inline-block; font-size: 11px; color: var(--accent);
+    background: var(--accent-light); padding: 2px 12px; border-radius: 20px;
+    font-weight: 500; letter-spacing: 0.5px; margin-bottom: 12px;
   }
   .work-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
   .work-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
 
-  /* Thoughts */
-  .thoughts-list { }
-  .thought-item {
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border);
-  }
+  .thought-item { padding: 24px 0; border-bottom: 1px solid var(--border); }
   .thought-item:last-child { border-bottom: none; }
   .thought-date { font-size: 12px; color: var(--text-light); letter-spacing: 1px; }
   .thought-text { font-size: 15px; margin-top: 6px; line-height: 1.8; }
-  .thought-placeholder {
-    color: var(--text-light);
-    font-size: 14px;
-    font-style: italic;
-    text-align: center;
-    padding: 40px 0;
-  }
 
-  /* Contact */
-  .contact-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 24px;
-  }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
   .contact-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
-    border: 1px solid var(--border);
-    border-radius: 40px;
-    text-decoration: none;
-    color: var(--text);
-    font-size: 14px;
-    transition: all 0.3s;
-    background: var(--card);
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; border: 1px solid var(--border); border-radius: 40px;
+    text-decoration: none; color: var(--text); font-size: 14px;
+    transition: all 0.3s; background: var(--card);
   }
-  .contact-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-2px);
-  }
+  .contact-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 48px 24px;
-    font-size: 13px;
-    color: var(--text-light);
-    border-top: 1px solid var(--border);
-    max-width: 800px;
-    margin: 0 auto;
-  }
+  footer { text-align: center; padding: 48px 24px; font-size: 13px; color: var(--text-light); border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto; }
 
-  /* Mobile */
   @media (max-width: 640px) {
     nav { padding: 16px 20px; }
     .nav-links {
-      position: fixed;
-      top: 0; right: -100%;
-      width: 70%; height: 100vh;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
+      position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+      flex-direction: column; justify-content: center; align-items: center; gap: 40px;
       background: rgba(248,245,240,0.98);
       backdrop-filter: blur(20px);
       transition: right 0.4s ease;
@@ -300,7 +182,6 @@
   </div>
 </nav>
 
-<!-- Hero -->
 <section class="hero">
   <h1 class="hero-name">芮柚子</h1>
   <p class="hero-tagline">一个体制内记者关于自由、成长和认知升级的实践记录</p>
@@ -308,7 +189,6 @@
   <p class="scroll-hint">— 向下滚动 —</p>
 </section>
 
-<!-- About -->
 <section id="about">
   <h2 class="section-title">关于我</h2>
   <div class="timeline">
@@ -339,7 +219,6 @@
   </div>
 </section>
 
-<!-- Works -->
 <section id="works">
   <h2 class="section-title">创作</h2>
   <div class="works-grid">
@@ -361,18 +240,17 @@
     <div class="work-card">
       <div class="work-tag">视频</div>
       <h3>哲学不是用来背的，是用来用的</h3>
-      <p>把存在主义、斯多葛变成日常可操作的方法。</p>
+      <p>把存在主义、斯多葛变成本日常可操作的方法。</p>
     </div>
   </div>
 </section>
 
-<!-- Thoughts -->
 <section id="thoughts">
   <h2 class="section-title">碎碎念</h2>
   <div class="thoughts-list">
     <div class="thought-item">
       <div class="thought-date">2026.05</div>
-      <div class="thought-text">人的自由度不取决于你在哪里上班，取决于你有没有"随时可以走"的底气。前者是环境，后者是选择。</div>
+      <div class="thought-text">人的自由度不取决于你在哪里上班，取决于你有没有"随时可以走"的底气。</div>
     </div>
     <div class="thought-item">
       <div class="thought-date">2026.04</div>
@@ -382,36 +260,28 @@
       <div class="thought-date">2026.03</div>
       <div class="thought-text">和一位朋友聊到"人生排序"：自由、生命、爱、金钱。我的答案是爱排第一。没有爱的能力，拥有再多也是空壳。</div>
     </div>
-    <div class="thought-item">
-      <div class="thought-date">——</div>
-      <div class="thought-text" style="color:#8a8580;font-style:italic">更多想法正在路上……</div>
-    </div>
   </div>
 </section>
 
-<!-- Contact -->
 <section id="contact">
   <h2 class="section-title">联系我</h2>
   <p style="color:var(--text-light);font-size:15px">如果你想聊聊采访合作、内容交流，或者只是想打个招呼——</p>
   <div class="contact-links">
-    <a href="#" class="contact-btn" onclick="alert('公众号：芮柚子Faye\n（此处可替换为你的实际号）');return false;">📖 公众号</a>
-    <a href="#" class="contact-btn" onclick="alert('抖音：芮柚子Faye\n（此处可替换为你的实际号）');return false;">🎬 抖音</a>
-    <a href="#" class="contact-btn" onclick="alert('小红书：芮柚子Faye\n（此处可替换为你的实际号）');return false;">📕 小红书</a>
-    <a href="#" class="contact-btn" onclick="alert('邮箱：你的邮箱@example.com\n（此处可替换）');return false;">✉️ 邮箱</a>
+    <a href="#" class="contact-btn" onclick="alert('公众号：芮柚子Faye');return false;">公众号</a>
+    <a href="#" class="contact-btn" onclick="alert('抖音：芮柚子Faye');return false;">抖音</a>
+    <a href="#" class="contact-btn" onclick="alert('小红书：芮柚子Faye');return false;">小红书</a>
+    <a href="#" class="contact-btn" onclick="alert('邮箱：你的邮箱地址');return false;">邮箱</a>
   </div>
 </section>
 
 <footer>
-  <p>© 2026 芮柚子 · 用文字记录从稳定到自由的旅程</p>
+  <p>&copy; 2026 芮柚子 · 用文字记录从稳定到自由的旅程</p>
 </footer>
 
 <script>
-// Nav scroll effect
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
 });
-
-// Mobile menu
 function toggleMenu() {
   document.getElementById('navLinks').classList.toggle('open');
   document.getElementById('hamburger').classList.toggle('open');
@@ -422,8 +292,6 @@ document.querySelectorAll('.nav-links a').forEach(a => {
     document.getElementById('hamburger').classList.remove('open');
   });
 });
-
-// Smooth reveal on scroll
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -432,7 +300,6 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.work-card, .tl-item, .thought-item').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
