@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鑺煔瀛?Faye</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --bg: #f8f5f0;
+    --text: #1a1a1a;
+    --text-light: #8a8580;
+    --accent: #b8472e;
+    --accent-light: #f0e6e2;
+    --border: #e5ddd5;
+    --card: #ffffff;
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Serif SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(248,245,240,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  nav.scrolled { border-color: var(--border); }
+  .nav-logo { font-weight: 600; font-size: 18px; letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: 0.3s; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+  .hero-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .hero-tagline {
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--text-light);
+    font-weight: 300;
+    letter-spacing: 2px;
+    max-width: 500px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-desc {
+    margin-top: 32px;
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 460px;
+    line-height: 2;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+  .scroll-hint {
+    margin-top: 60px;
+    font-size: 12px;
+    color: var(--text-light);
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards, pulse 2s 0.8s infinite;
+  }
+
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  /* Sections */
+  section {
+    padding: 100px 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 48px;
+    position: relative;
+    display: inline-block;
+  }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 0;
+    width: 40px; height: 3px;
+    background: var(--accent);
+  }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 8px; bottom: 8px;
+    width: 1.5px;
+    background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 36px; }
+  .tl-dot {
+    position: absolute;
+    left: -28px; top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg);
+  }
+  .tl-year {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .tl-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+  .tl-desc { font-size: 14px; color: var(--text-light); }
+
+  /* Works grid */
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .work-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+    border: 1px solid var(--border);
+  }
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  .work-tag {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .work-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .work-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+
+  /* Thoughts */
+  .thoughts-list { }
+  .thought-item {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .thought-item:last-child { border-bottom: none; }
+  .thought-date { font-size: 12px; color: var(--text-light); letter-spacing: 1px; }
+  .thought-text { font-size: 15px; margin-top: 6px; line-height: 1.8; }
+  .thought-placeholder {
+    color: var(--text-light);
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  /* Contact */
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    transition: all 0.3s;
+    background: var(--card);
+  }
+  .contact-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 48px 24px;
+    font-size: 13px;
+    color: var(--text-light);
+    border-top: 1px solid var(--border);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .nav-links {
+      position: fixed;
+      top: 0; right: -100%;
+      width: 70%; height: 100vh;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      background: rgba(248,245,240,0.98);
+      backdrop-filter: blur(20px);
+      transition: right 0.4s ease;
+      border-left: 1px solid var(--border);
+    }
+    .nav-links.open { right: 0; }
+    .nav-links a { font-size: 18px; }
+    .hamburger { display: flex; z-index: 101; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -5px); }
+    section { padding: 60px 20px; }
+    .works-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-logo">鑺煔瀛?/div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">鍏充簬</a></li>
+    <li><a href="#works">鍒涗綔</a></li>
+    <li><a href="#thoughts">纰庣蹇?/a></li>
+    <li><a href="#contact">鑱旂郴</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1 class="hero-name">鑺煔瀛?/h1>
+  <p class="hero-tagline">涓€涓綋鍒跺唴璁拌€呭叧浜庤嚜鐢便€佹垚闀垮拰璁ょ煡鍗囩骇鐨勫疄璺佃褰?/p>
+  <p class="hero-desc">鍐欎綔 路 閲囪 路 鍝插 路 鎺㈢储涓栫晫鐪熺浉</p>
+  <p class="scroll-hint">鈥?鍚戜笅婊氬姩 鈥?/p>
+</section>
+
+<!-- About -->
+<section id="about">
+  <h2 class="section-title">鍏充簬鎴?/h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">NOW</div>
+      <div class="tl-title">浣撳埗鍐呰鑰?路 鍐呭鍒涗綔鑰?/div>
+      <div class="tl-desc">鏃ュ父宸ヤ綔涔嬪锛岀敤鏂囧瓧璁板綍浠庣ǔ瀹氬埌鑷敱鐨勭湡瀹炶繃绋嬨€傚叕浼楀彿銆佹姈闊炽€佸皬绾功澶氬钩鍙拌緭鍑恒€?/div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2025</div>
+      <div class="tl-title">杩涘叆浣撳埗 路 浜斿勾鐨勫紑濮?/div>
+      <div class="tl-desc">浜斿勾鏈嶅姟鏈熶笉鏄厧鐔紝鏄垜缁欒嚜宸卞噯澶囩殑绱犳潗搴撱€傚湪杩欎釜绐楀彛閲岀Н绱綔鍝併€佺粡楠屽拰搴曟皵銆?/div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2024</div>
+      <div class="tl-title">鍏紬鍙疯窇閫氭祦閲忎富</div>
+      <div class="tl-desc">寮€濮嬮獙璇?鍐欎綔鑳藉吇娲昏嚜宸?锛屽潥瀹氫簡鍐呭鍒涗綔杩欐潯璺€?/div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2023</div>
+      <div class="tl-title">寮€濮嬭嚜濯掍綋鎺㈢储</div>
+      <div class="tl-desc">鍦ㄦ姈闊冲彂浜嗙涓€鏉″唴瀹广€備笉闇茶劯銆佷笉鎷у反锛岀敤鑷繁鐨勬柟寮忚璇濄€?/div>
+    </div>
+  </div>
+</section>
+
+<!-- Works -->
+<section id="works">
+  <h2 class="section-title">鍒涗綔</h2>
+  <div class="works-grid">
+    <div class="work-card">
+      <div class="work-tag">鏂囩珷</div>
+      <h3>鐖便€佽嚜鐢便€佺敓鍛姐€侀噾閽憋細鎴戠殑浠峰€艰鎺掑簭</h3>
+      <p>蹇30宀佺殑鎴戯紝鍐冲畾鎶婁汉鐢熺殑绗竴椤轰綅鐣欑粰"鐖?銆?/p>
+    </div>
+    <div class="work-card">
+      <div class="work-tag">鏂囩珷</div>
+      <h3>浣撳埗鍐呬簲骞寸殑绗笁绉嶆椿娉?/h3>
+      <p>涓嶈緸鑱岋紝浣嗕篃涓嶆贩鏃ュ瓙銆備簲骞存湇鍔℃湡鐨勫彟涓€绉嶆墦寮€鏂瑰紡銆?/p>
+    </div>
+    <div class="work-card">
+      <div class="work-tag">璁胯皥</div>
+      <h3>鐢ㄨ鑰呯殑鏂瑰紡鎬濊€?/h3>
+      <p>濡備綍闂竴涓ソ闂銆佸浣曞垽鏂俊鎭湡浼€侀噰璁夸腑瀛﹀埌鐨勯偅浜涗簨銆?/p>
+    </div>
+    <div class="work-card">
+      <div class="work-tag">瑙嗛</div>
+      <h3>鍝插涓嶆槸鐢ㄦ潵鑳岀殑锛屾槸鐢ㄦ潵鐢ㄧ殑</h3>
+      <p>鎶婂瓨鍦ㄤ富涔夈€佹柉澶氳憶鍙樻垚鏃ュ父鍙搷浣滅殑鏂规硶銆?/p>
+    </div>
+  </div>
+</section>
+
+<!-- Thoughts -->
+<section id="thoughts">
+  <h2 class="section-title">纰庣蹇?/h2>
+  <div class="thoughts-list">
+    <div class="thought-item">
+      <div class="thought-date">2026.05</div>
+      <div class="thought-text">浜虹殑鑷敱搴︿笉鍙栧喅浜庝綘鍦ㄥ摢閲屼笂鐝紝鍙栧喅浜庝綘鏈夋病鏈?闅忔椂鍙互璧?鐨勫簳姘斻€傚墠鑰呮槸鐜锛屽悗鑰呮槸閫夋嫨銆?/div>
+    </div>
+    <div class="thought-item">
+      <div class="thought-date">2026.04</div>
+      <div class="thought-text">鍋氬唴瀹圭殑浜哄鏄撻櫡鍏ヤ竴涓鍖猴細鎬绘兂鎲嬩釜澶ф嫑銆備絾鎸佺画杈撳嚭姣旂垎娆炬洿閲嶈銆傜垎娆鹃潬杩愭皵锛屾寔缁潬绯荤粺銆?/div>
+    </div>
+    <div class="thought-item">
+      <div class="thought-date">2026.03</div>
+      <div class="thought-text">鍜屼竴浣嶆湅鍙嬭亰鍒?浜虹敓鎺掑簭"锛氳嚜鐢便€佺敓鍛姐€佺埍銆侀噾閽便€傛垜鐨勭瓟妗堟槸鐖辨帓绗竴銆傛病鏈夌埍鐨勮兘鍔涳紝鎷ユ湁鍐嶅涔熸槸绌哄３銆?/div>
+    </div>
+    <div class="thought-item">
+      <div class="thought-date">鈥斺€?/div>
+      <div class="thought-text" style="color:#8a8580;font-style:italic">鏇村鎯虫硶姝ｅ湪璺笂鈥︹€?/div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <h2 class="section-title">鑱旂郴鎴?/h2>
+  <p style="color:var(--text-light);font-size:15px">濡傛灉浣犳兂鑱婅亰閲囪鍚堜綔銆佸唴瀹逛氦娴侊紝鎴栬€呭彧鏄兂鎵撲釜鎷涘懠鈥斺€?/p>
+  <div class="contact-links">
+    <a href="#" class="contact-btn" onclick="alert('鍏紬鍙凤細鑺煔瀛怓aye\n锛堟澶勫彲鏇挎崲涓轰綘鐨勫疄闄呭彿锛?);return false;">馃摉 鍏紬鍙?/a>
+    <a href="#" class="contact-btn" onclick="alert('鎶栭煶锛氳姰鏌氬瓙Faye\n锛堟澶勫彲鏇挎崲涓轰綘鐨勫疄闄呭彿锛?);return false;">馃幀 鎶栭煶</a>
+    <a href="#" class="contact-btn" onclick="alert('灏忕孩涔︼細鑺煔瀛怓aye\n锛堟澶勫彲鏇挎崲涓轰綘鐨勫疄闄呭彿锛?);return false;">馃摃 灏忕孩涔?/a>
+    <a href="#" class="contact-btn" onclick="alert('閭锛氫綘鐨勯偖绠盄example.com\n锛堟澶勫彲鏇挎崲锛?);return false;">鉁夛笍 閭</a>
+  </div>
+</section>
+
+<footer>
+  <p>漏 2026 鑺煔瀛?路 鐢ㄦ枃瀛楄褰曚粠绋冲畾鍒拌嚜鐢辩殑鏃呯▼</p>
+</footer>
+
+<script>
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile menu
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});
+
+// Smooth reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.work-card, .tl-item, .thought-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
