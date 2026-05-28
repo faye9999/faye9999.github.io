@@ -10,12 +10,15 @@
 
   :root {
     --bg: #f8f5f0;
-    --text: #1a1a1a;
+    --text: #1a1a2e;
     --text-light: #8a8580;
+    --text-muted: #b5ada5;
     --accent: #b8472e;
     --accent-light: #f0e6e2;
+    --accent-glow: rgba(184,71,46,0.08);
     --border: #e5ddd5;
     --card: #ffffff;
+    --radius: 16px;
   }
 
   body {
@@ -23,24 +26,40 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
   }
 
+  /* ── Navigation ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 20px 40px;
+    padding: 18px 40px;
     display: flex; justify-content: space-between; align-items: center;
-    background: rgba(248,245,240,0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(248,245,240,0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid transparent;
-    transition: border-color 0.3s;
+    transition: all 0.4s;
   }
-  nav.scrolled { border-color: var(--border); }
-  .nav-logo { font-weight: 600; font-size: 18px; letter-spacing: 1px; }
+  nav.scrolled {
+    border-color: var(--border);
+    box-shadow: 0 1px 20px rgba(0,0,0,0.04);
+  }
+  .nav-logo {
+    font-weight: 600; font-size: 18px; letter-spacing: 2px;
+    position: relative;
+  }
+  .nav-logo::after {
+    content: '';
+    position: absolute; bottom: 0; right: -8px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+  }
   .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-links a {
     text-decoration: none; color: var(--text-light); font-size: 14px;
-    transition: color 0.2s; letter-spacing: 0.5px; position: relative;
+    transition: color 0.3s; letter-spacing: 1px; position: relative;
   }
   .nav-links a::after {
     content: '';
@@ -53,125 +72,259 @@
   .nav-links a:hover::after { width: 100%; }
 
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
-  .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: 0.3s; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: 0.3s; border-radius: 2px; }
 
+  /* ── Hero ── */
   .hero {
     min-height: 100vh;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -40%; right: -20%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -30%; left: -20%;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,71,46,0.05) 0%, transparent 70%);
+    pointer-events: none;
   }
   .hero-name {
     font-family: 'STSong', 'SimSun', serif;
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 700; letter-spacing: 4px; margin-bottom: 16px;
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 700; letter-spacing: 6px; margin-bottom: 20px;
     opacity: 0; transform: translateY(20px);
     animation: fadeUp 0.8s ease forwards;
+    position: relative;
+  }
+  .hero-name::after {
+    content: '';
+    display: block; width: 40px; height: 2px;
+    background: var(--accent); margin: 20px auto 0;
+    opacity: 0.5;
   }
   .hero-tagline {
-    font-size: clamp(16px, 2vw, 22px);
-    color: var(--text-light); font-weight: 300; letter-spacing: 2px;
-    max-width: 500px;
+    font-size: clamp(15px, 2vw, 20px);
+    color: var(--text-light); font-weight: 300; letter-spacing: 3px;
+    max-width: 480px; margin-top: 24px;
     opacity: 0; transform: translateY(20px);
     animation: fadeUp 0.8s ease 0.2s forwards;
   }
   .hero-desc {
-    margin-top: 32px; font-size: 15px; color: var(--text-light);
-    max-width: 460px; line-height: 2;
+    margin-top: 20px; font-size: 14px; color: var(--text-light);
+    letter-spacing: 4px; font-weight: 300;
     opacity: 0; transform: translateY(20px);
-    animation: fadeUp 0.8s ease 0.4s forwards;
+    animation: fadeUp 0.8s ease 0.35s forwards;
   }
   .scroll-hint {
-    margin-top: 60px; font-size: 12px; color: var(--text-light); letter-spacing: 2px;
-    animation: fadeUp 0.8s ease 0.6s forwards, pulse 2s 0.8s infinite;
+    margin-top: 80px; font-size: 11px; color: var(--text-muted);
+    letter-spacing: 3px;
+    animation: fadeUp 0.8s ease 0.5s forwards, pulse 2.5s 0.8s infinite;
   }
 
   @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
 
+  /* ── Section Dividers ── */
+  .section-divider {
+    max-width: 800px; margin: 0 auto; padding: 0 24px;
+  }
+  .section-divider hr {
+    border: none; height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+  }
+
+  /* ── Sections ── */
   section { padding: 100px 24px; max-width: 800px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 11px; color: var(--text-muted);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
   .section-title {
     font-family: 'STSong', 'SimSun', serif;
-    font-size: 28px; font-weight: 600; margin-bottom: 48px;
+    font-size: 30px; font-weight: 600; margin-bottom: 48px;
     position: relative; display: inline-block;
   }
   .section-title::after {
     content: '';
-    position: absolute; bottom: -8px; left: 0;
-    width: 40px; height: 3px; background: var(--accent);
+    position: absolute; bottom: -10px; left: 0;
+    width: 36px; height: 2.5px;
+    background: var(--accent); border-radius: 2px;
   }
 
+  /* ── Timeline ── */
   .timeline { position: relative; padding-left: 32px; }
   .timeline::before {
     content: '';
     position: absolute; left: 7px; top: 8px; bottom: 8px;
-    width: 1.5px; background: var(--border);
+    width: 1.5px; background: linear-gradient(to bottom, var(--border), var(--border) 85%, transparent);
   }
-  .tl-item { position: relative; margin-bottom: 36px; }
+  .tl-item { position: relative; margin-bottom: 40px; }
+  .tl-item:last-child { margin-bottom: 0; }
   .tl-dot {
     position: absolute; left: -28px; top: 6px;
-    width: 12px; height: 12px; border-radius: 50%;
+    width: 13px; height: 13px; border-radius: 50%;
     background: var(--accent); border: 3px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--accent-light);
   }
-  .tl-year { font-size: 13px; color: var(--accent); font-weight: 500; letter-spacing: 1px; margin-bottom: 4px; }
-  .tl-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-  .tl-desc { font-size: 14px; color: var(--text-light); }
+  .tl-year {
+    font-size: 12px; color: var(--accent); font-weight: 500;
+    letter-spacing: 2px; margin-bottom: 6px;
+    display: inline-block; padding: 1px 10px;
+    background: var(--accent-light); border-radius: 20px;
+  }
+  .tl-title { font-weight: 600; font-size: 17px; margin-bottom: 4px; }
+  .tl-desc { font-size: 14px; color: var(--text-light); line-height: 1.7; }
 
-  .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-  .work-card {
-    background: var(--card); border-radius: 16px; padding: 28px 24px;
-    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s; cursor: default; border: 1px solid var(--border);
+  /* ── Works ── */
+  .filter-tabs {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 36px;
   }
-  .work-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-  .work-card.hidden { display: none; }
-  .work-tag {
-    display: inline-block; font-size: 11px; color: var(--accent);
-    background: var(--accent-light); padding: 2px 12px; border-radius: 20px;
-    font-weight: 500; letter-spacing: 0.5px; margin-bottom: 12px;
+  .filter-tab {
+    padding: 7px 18px; border-radius: 30px;
+    border: 1px solid var(--border); background: transparent;
+    font-size: 13px; color: var(--text-light); cursor: pointer;
+    transition: all 0.3s; font-family: inherit;
+    letter-spacing: 0.5px;
   }
-  .work-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
-  .work-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+  .filter-tab:hover {
+    border-color: var(--accent); color: var(--text);
+    background: var(--accent-glow);
+  }
+  .filter-tab.active {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
 
-  /* Category filter */
-  .filter-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .filter-tab { padding: 6px 20px; border-radius: 30px; border: 1px solid var(--border); background: transparent; font-size: 13px; color: var(--text-light); cursor: pointer; transition: all 0.3s; font-family: inherit; }
-  .filter-tab:hover { border-color: var(--accent); color: var(--text); }
-  .filter-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
   .work-card-wrapper { transition: opacity 0.3s; }
 
-  .thought-item { padding: 24px 0; border-bottom: 1px solid var(--border); }
-  .thought-item:last-child { border-bottom: none; }
-  .thought-date { font-size: 12px; color: var(--text-light); letter-spacing: 1px; }
-  .thought-text { font-size: 15px; margin-top: 6px; line-height: 1.8; }
+  .work-card {
+    background: var(--card); border-radius: var(--radius); padding: 28px 24px;
+    transition: all 0.4s; cursor: default;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .work-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.4s ease;
+    border-radius: 0 2px 2px 0;
+  }
+  .work-card:hover::before { height: 100%; }
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    border-color: transparent;
+  }
+  .work-tag {
+    display: inline-block; font-size: 11px; color: var(--accent);
+    background: var(--accent-light); padding: 3px 12px; border-radius: 20px;
+    font-weight: 500; letter-spacing: 0.5px; margin-bottom: 12px;
+  }
+  .work-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; line-height: 1.5; }
+  .work-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+  .work-read {
+    display: inline-block; margin-top: 14px;
+    font-size: 12px; color: var(--accent); letter-spacing: 1px;
+    opacity: 0; transform: translateX(-8px);
+    transition: all 0.3s;
+  }
+  .work-card:hover .work-read { opacity: 1; transform: translateX(0); }
 
-  .contact-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+  /* ── Thoughts ── */
+  .thoughts-list { }
+  .thought-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+    padding-left: 0;
+    border-radius: 0;
+  }
+  .thought-item:last-child { border-bottom: none; }
+  .thought-item:hover { padding-left: 8px; }
+  .thought-date {
+    font-size: 11px; color: var(--text-muted);
+    letter-spacing: 1px; font-weight: 400;
+  }
+  .thought-text {
+    font-size: 15px; margin-top: 8px; line-height: 1.9;
+    color: var(--text);
+    position: relative;
+    padding-left: 16px;
+    border-left: 2px solid var(--accent-light);
+  }
+
+  /* ── Contact ── */
+  .contact-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
   .contact-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 28px; border: 1px solid var(--border); border-radius: 40px;
+    padding: 14px 32px;
+    border: 1px solid var(--border); border-radius: 40px;
     text-decoration: none; color: var(--text); font-size: 14px;
     transition: all 0.3s; background: var(--card);
+    letter-spacing: 0.5px;
   }
-  .contact-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .contact-btn:hover {
+    border-color: var(--accent); color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--accent-glow);
+  }
 
-  footer { text-align: center; padding: 48px 24px; font-size: 13px; color: var(--text-light); border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto; }
+  /* ── Footer ── */
+  footer {
+    text-align: center; padding: 60px 24px 40px;
+    font-size: 13px; color: var(--text-light);
+    max-width: 800px; margin: 0 auto;
+    position: relative;
+  }
+  footer::before {
+    content: '';
+    display: block; width: 40px; height: 2px;
+    background: var(--border); margin: 0 auto 32px;
+    border-radius: 2px;
+  }
+  .footer-quote {
+    font-size: 13px; color: var(--text-muted);
+    font-style: italic; margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
 
+  /* ── Mobile ── */
   @media (max-width: 640px) {
     nav { padding: 16px 20px; }
     .nav-links {
-      position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+      position: fixed; top: 0; right: -100%;
+      width: 75%; height: 100vh;
       flex-direction: column; justify-content: center; align-items: center; gap: 40px;
       background: rgba(248,245,240,0.98);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px);
       transition: right 0.4s ease;
       border-left: 1px solid var(--border);
     }
     .nav-links.open { right: 0; }
-    .nav-links a { font-size: 18px; }
+    .nav-links a { font-size: 17px; letter-spacing: 2px; }
     .hamburger { display: flex; z-index: 101; }
     .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 5px); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -5px); }
     section { padding: 60px 20px; }
     .works-grid { grid-template-columns: 1fr; }
+    .thought-item:hover { padding-left: 0; }
   }
 </style>
 </head>
@@ -190,6 +343,7 @@
   </div>
 </nav>
 
+<!-- Hero -->
 <section class="hero">
   <h1 class="hero-name">芮柚子</h1>
   <p class="hero-tagline">一个体制内记者关于自由、成长和认知升级的实践记录</p>
@@ -197,7 +351,12 @@
   <p class="scroll-hint">— 向下滚动 —</p>
 </section>
 
+<!-- Divider -->
+<div class="section-divider"><hr></div>
+
+<!-- About -->
 <section id="about">
+  <div class="section-label">ABOUT</div>
   <h2 class="section-title">关于我</h2>
   <div class="timeline">
     <div class="tl-item">
@@ -227,73 +386,89 @@
   </div>
 </section>
 
+<!-- Divider -->
+<div class="section-divider"><hr></div>
+
+<!-- Works -->
 <section id="works">
+  <div class="section-label">WORKS</div>
   <h2 class="section-title">创作</h2>
   <div class="filter-tabs">
-    <button class="filter-tab active" onclick="filterWorks('all')">全部</button>
-    <button class="filter-tab" onclick="filterWorks('growth')">成长感悟</button>
-    <button class="filter-tab" onclick="filterWorks('philosophy')">哲学视角</button>
-    <button class="filter-tab" onclick="filterWorks('society')">社会观点</button>
+    <button class="filter-tab active" onclick="filterWorks('all', this)">全部</button>
+    <button class="filter-tab" onclick="filterWorks('growth', this)">成长感悟</button>
+    <button class="filter-tab" onclick="filterWorks('philosophy', this)">哲学视角</button>
+    <button class="filter-tab" onclick="filterWorks('society', this)">社会观点</button>
   </div>
   <div class="works-grid">
     <div class="work-card-wrapper" data-category="growth">
-    <a href="https://mp.weixin.qq.com/s/szHkV5Hf5MWYoNntBXKACw" target="_blank" style="text-decoration:none;color:inherit">
+    <a href="https://mp.weixin.qq.com/s/szHkV5Hf5MWYoNntBXKACw" target="_blank" style="text-decoration:none;color:inherit;display:block">
     <div class="work-card">
       <div class="work-tag">成长感悟</div>
       <h3>爱、自由、生命、金钱：我的价值观排序</h3>
       <p>快要30岁的我，决定把人生的第一顺位留给"爱"。</p>
+      <span class="work-read">阅读全文 →</span>
     </div>
     </a>
     </div>
     <div class="work-card-wrapper" data-category="philosophy">
-    <a href="https://mp.weixin.qq.com/s/jvK-TPPSD8AYV3GMntXHjg" target="_blank" style="text-decoration:none;color:inherit">
+    <a href="https://mp.weixin.qq.com/s/jvK-TPPSD8AYV3GMntXHjg" target="_blank" style="text-decoration:none;color:inherit;display:block">
     <div class="work-card">
       <div class="work-tag">哲学视角</div>
       <h3>从儒家、法家、道家看社会秩序</h3>
       <p>中国古代三种治理哲学的现代解读。</p>
+      <span class="work-read">阅读全文 →</span>
     </div>
     </a>
     </div>
     <div class="work-card-wrapper" data-category="growth">
-    <a href="https://mp.weixin.qq.com/s/5KzaSJM9n0m3TeYEHbeqCA" target="_blank" style="text-decoration:none;color:inherit">
+    <a href="https://mp.weixin.qq.com/s/5KzaSJM9n0m3TeYEHbeqCA" target="_blank" style="text-decoration:none;color:inherit;display:block">
     <div class="work-card">
       <div class="work-tag">成长感悟</div>
       <h3>别劝我稳定了，我决定在奥德赛时期"乱活"</h3>
       <p>奥德赛时期的自由与探索。</p>
+      <span class="work-read">阅读全文 →</span>
     </div>
     </a>
     </div>
     <div class="work-card-wrapper" data-category="philosophy">
-    <a href="https://mp.weixin.qq.com/s/Pmqkx_T-p0sMtAHjw4_Lsg" target="_blank" style="text-decoration:none;color:inherit">
+    <a href="https://mp.weixin.qq.com/s/Pmqkx_T-p0sMtAHjw4_Lsg" target="_blank" style="text-decoration:none;color:inherit;display:block">
     <div class="work-card">
       <div class="work-tag">哲学视角</div>
       <h3>命运：你想拥有什么，先要"成为"那个拥有它的人</h3>
       <p>拥有之前，先成为。</p>
+      <span class="work-read">阅读全文 →</span>
     </div>
     </a>
     </div>
     <div class="work-card-wrapper" data-category="philosophy">
-    <a href="https://mp.weixin.qq.com/s/oQuU05iKu2ley-V-cctXXg" target="_blank" style="text-decoration:none;color:inherit">
+    <a href="https://mp.weixin.qq.com/s/oQuU05iKu2ley-V-cctXXg" target="_blank" style="text-decoration:none;color:inherit;display:block">
     <div class="work-card">
       <div class="work-tag">哲学视角</div>
       <h3>时间真相</h3>
       <p>关于时间的另一种理解。</p>
+      <span class="work-read">阅读全文 →</span>
     </div>
     </a>
     </div>
     <div class="work-card-wrapper" data-category="growth">
-    <a href="https://mp.weixin.qq.com/s/Ep6xagqo3goFbmAUzB60HQ" target="_blank" style="text-decoration:none;color:inherit">
+    <a href="https://mp.weixin.qq.com/s/Ep6xagqo3goFbmAUzB60HQ" target="_blank" style="text-decoration:none;color:inherit;display:block">
     <div class="work-card">
       <div class="work-tag">成长感悟</div>
       <h3>我的人生 没有什么必须要做的事......除了成为自己</h3>
       <p>唯一必须要做的事。</p>
+      <span class="work-read">阅读全文 →</span>
     </div>
     </a>
     </div>
   </div>
 </section>
 
+<!-- Divider -->
+<div class="section-divider"><hr></div>
+
+<!-- Thoughts -->
 <section id="thoughts">
+  <div class="section-label">THOUGHTS</div>
   <h2 class="section-title">碎碎念</h2>
   <div class="thoughts-list">
     <div class="thought-item">
@@ -311,9 +486,14 @@
   </div>
 </section>
 
+<!-- Divider -->
+<div class="section-divider"><hr></div>
+
+<!-- Contact -->
 <section id="contact">
+  <div class="section-label">CONNECT</div>
   <h2 class="section-title">联系我</h2>
-  <p style="color:var(--text-light);font-size:15px">如果你想聊聊采访合作、内容交流，或者只是想打个招呼——</p>
+  <p style="color:var(--text-light);font-size:15px;line-height:1.8">如果你想聊聊采访合作、内容交流，或者只是想打个招呼——</p>
   <div class="contact-links">
     <a href="#" class="contact-btn" onclick="alert('公众号：芮柚子Faye');return false;">公众号</a>
     <a href="#" class="contact-btn" onclick="alert('抖音：芮柚子Faye');return false;">抖音</a>
@@ -323,7 +503,8 @@
 </section>
 
 <footer>
-  <p>&copy; 2026 芮柚子 · 用文字记录从稳定到自由的旅程</p>
+  <p class="footer-quote">用文字记录从稳定到自由的旅程</p>
+  <p>&copy; 2026 芮柚子 Faye</p>
 </footer>
 
 <script>
@@ -340,16 +521,12 @@ document.querySelectorAll('.nav-links a').forEach(a => {
     document.getElementById('hamburger').classList.remove('open');
   });
 });
-// Category filter
-function filterWorks(category) {
+
+function filterWorks(category, btn) {
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
   document.querySelectorAll('.work-card-wrapper').forEach(w => {
-    if (category === 'all' || w.dataset.category === category) {
-      w.style.display = '';
-    } else {
-      w.style.display = 'none';
-    }
+    w.style.display = (category === 'all' || w.dataset.category === category) ? '' : 'none';
   });
 }
 
@@ -363,8 +540,8 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.work-card, .tl-item, .thought-item').forEach(el => {
   el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
   observer.observe(el);
 });
 </script>
