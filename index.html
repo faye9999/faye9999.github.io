@@ -118,7 +118,8 @@
   .tl-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
   .tl-desc { font-size: 14px; color: var(--text-light); }
 
-  .works-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .works-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+  .work-card-wrapper { width: calc(50% - 10px); }
   .work-card {
     background: var(--card); border-radius: 16px; padding: 28px 24px;
     transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s; cursor: default; border: 1px solid var(--border);
@@ -257,7 +258,7 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -5px); }
     section { padding: 60px 20px; }
-    .works-grid { grid-template-columns: 1fr; }
+    .work-card-wrapper { width: 100%; }
   }
 </style>
 </head>
@@ -447,9 +448,9 @@ document.querySelectorAll('.nav-links a').forEach(a => {
 });
 
 // Category filter
-function filterWorks(category, btn) {
+function filterWorks(category) {
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
+  event.target.classList.add('active');
   document.querySelectorAll('.work-card-wrapper').forEach(w => {
     w.style.display = (category === 'all' || w.dataset.category === category) ? '' : 'none';
   });
