@@ -118,28 +118,58 @@
   .tl-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
   .tl-desc { font-size: 14px; color: var(--text-light); }
 
-  .works-grid { display: flex; flex-wrap: wrap; gap: 20px; }
-  .work-card-wrapper { width: calc(50% - 10px); }
-  .work-card {
-    background: var(--card); border-radius: 16px; padding: 28px 24px;
-    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s; cursor: default; border: 1px solid var(--border);
+  /* ── Works - Magazine Style ── */
+  .works-list { display: flex; flex-direction: column; gap: 20px; }
+
+  .work-item {
+    display: flex; background: var(--card);
+    border-radius: var(--radius); overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.4s; cursor: pointer;
   }
-  .work-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-  .work-card.hidden { display: none; }
+  .work-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.06);
+    border-color: transparent;
+  }
+
+  .work-body {
+    flex: 1; padding: 28px 24px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
   .work-tag {
     display: inline-block; font-size: 11px; color: var(--accent);
-    background: var(--accent-light); padding: 2px 12px; border-radius: 20px;
-    font-weight: 500; letter-spacing: 0.5px; margin-bottom: 12px;
+    background: var(--accent-light); padding: 3px 14px; border-radius: 20px;
+    font-weight: 500; letter-spacing: 0.5px; margin-bottom: 10px;
+    align-self: flex-start;
   }
-  .work-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
-  .work-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+  .work-body h3 {
+    font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+    font-size: 17px; font-weight: 600; margin-bottom: 6px; line-height: 1.5;
+  }
+  .work-body p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+  .work-read-link {
+    margin-top: 12px; font-size: 12px; color: var(--accent);
+    letter-spacing: 1px; opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .work-item:hover .work-read-link { opacity: 1; }
+
+  .work-art {
+    width: 120px; min-height: 140px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg);
+    position: relative; overflow: hidden;
+  }
+  .work-art svg { width: 80px; height: 80px; }
+
+  .work-item.hidden { display: none; }
 
   /* Category filter */
   .filter-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
   .filter-tab { padding: 6px 20px; border-radius: 30px; border: 1px solid var(--border); background: transparent; font-size: 13px; color: var(--text-light); cursor: pointer; transition: all 0.3s; font-family: inherit; }
   .filter-tab:hover { border-color: var(--accent); color: var(--text); }
   .filter-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .work-card-wrapper { transition: opacity 0.3s; }
 
   .thought-item { padding: 24px 0; border-bottom: 1px solid var(--border); }
   .thought-item:last-child { border-bottom: none; }
@@ -258,7 +288,9 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -5px); }
     section { padding: 60px 20px; }
-    .work-card-wrapper { width: 100%; }
+    .work-item { flex-direction: column; }
+    .work-art { width: 100%; min-height: 70px; }
+    .work-art svg { width: 50px; height: 50px; }
   }
 </style>
 </head>
@@ -323,59 +355,117 @@
     <button class="filter-tab" onclick="filterWorks('philosophy')">哲学视角</button>
     <button class="filter-tab" onclick="filterWorks('society')">社会观点</button>
   </div>
-  <div class="works-grid">
-    <div class="work-card-wrapper" data-category="growth">
-    <a href="https://mp.weixin.qq.com/s/szHkV5Hf5MWYoNntBXKACw" target="_blank" style="text-decoration:none;color:inherit">
-    <div class="work-card">
-      <div class="work-tag">成长感悟</div>
-      <h3>爱、自由、生命、金钱：我的价值观排序</h3>
-      <p>快要30岁的我，决定把人生的第一顺位留给"爱"。</p>
-    </div>
+  <div class="works-list" id="worksList">
+    <div class="work-item" data-category="growth">
+    <a href="https://mp.weixin.qq.com/s/szHkV5Hf5MWYoNntBXKACw" target="_blank" style="text-decoration:none;color:inherit;display:flex;flex:1">
+      <div class="work-body">
+        <span class="work-tag">成长感悟</span>
+        <h3>爱、自由、生命、金钱：我的价值观排序</h3>
+        <p>快要30岁的我，决定把人生的第一顺位留给"爱"。</p>
+        <span class="work-read-link">阅读全文 →</span>
+      </div>
+      <div class="work-art">
+        <svg viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="28" stroke="#b8472e" stroke-width="1" opacity="0.3"/>
+          <circle cx="40" cy="40" r="18" stroke="#b8472e" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="40" cy="40" r="8" fill="#b8472e" opacity="0.3"/>
+          <circle cx="30" cy="30" r="3" fill="#b8472e" opacity="0.5"/>
+          <circle cx="50" cy="50" r="2" fill="#b8472e" opacity="0.4"/>
+        </svg>
+      </div>
     </a>
     </div>
-    <div class="work-card-wrapper" data-category="philosophy">
-    <a href="https://mp.weixin.qq.com/s/jvK-TPPSD8AYV3GMntXHjg" target="_blank" style="text-decoration:none;color:inherit">
-    <div class="work-card">
-      <div class="work-tag">哲学视角</div>
-      <h3>从儒家、法家、道家看社会秩序</h3>
-      <p>中国古代三种治理哲学的现代解读。</p>
-    </div>
+    <div class="work-item" data-category="philosophy">
+    <a href="https://mp.weixin.qq.com/s/jvK-TPPSD8AYV3GMntXHjg" target="_blank" style="text-decoration:none;color:inherit;display:flex;flex:1">
+      <div class="work-body">
+        <span class="work-tag">哲学视角</span>
+        <h3>从儒家、法家、道家看社会秩序</h3>
+        <p>中国古代三种治理哲学的现代解读。</p>
+        <span class="work-read-link">阅读全文 →</span>
+      </div>
+      <div class="work-art">
+        <svg viewBox="0 0 80 80" fill="none">
+          <path d="M10 60 Q25 30 40 50 Q55 70 70 35" stroke="#6a8a6a" stroke-width="1.5" opacity="0.5" fill="none"/>
+          <path d="M10 50 Q25 20 40 40 Q55 60 70 25" stroke="#6a8a6a" stroke-width="1" opacity="0.3" fill="none"/>
+          <circle cx="40" cy="42" r="4" fill="#6a8a6a" opacity="0.4"/>
+          <circle cx="25" cy="32" r="2" fill="#6a8a6a" opacity="0.3"/>
+          <circle cx="55" cy="52" r="2" fill="#6a8a6a" opacity="0.3"/>
+        </svg>
+      </div>
     </a>
     </div>
-    <div class="work-card-wrapper" data-category="growth">
-    <a href="https://mp.weixin.qq.com/s/5KzaSJM9n0m3TeYEHbeqCA" target="_blank" style="text-decoration:none;color:inherit">
-    <div class="work-card">
-      <div class="work-tag">成长感悟</div>
-      <h3>别劝我稳定了，我决定在奥德赛时期"乱活"</h3>
-      <p>奥德赛时期的自由与探索。</p>
-    </div>
+    <div class="work-item" data-category="growth">
+    <a href="https://mp.weixin.qq.com/s/5KzaSJM9n0m3TeYEHbeqCA" target="_blank" style="text-decoration:none;color:inherit;display:flex;flex:1">
+      <div class="work-body">
+        <span class="work-tag">成长感悟</span>
+        <h3>别劝我稳定了，我决定在奥德赛时期"乱活"</h3>
+        <p>奥德赛时期的自由与探索。</p>
+        <span class="work-read-link">阅读全文 →</span>
+      </div>
+      <div class="work-art">
+        <svg viewBox="0 0 80 80" fill="none">
+          <path d="M20 65 L30 45 L40 55 L50 30 L60 40" stroke="#8a6a9a" stroke-width="1.5" opacity="0.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="50" cy="30" r="3" fill="#8a6a9a" opacity="0.4"/>
+          <circle cx="40" cy="55" r="2" fill="#8a6a9a" opacity="0.3"/>
+          <path d="M30 30 Q35 20 40 25" stroke="#8a6a9a" stroke-width="1" opacity="0.3" fill="none"/>
+        </svg>
+      </div>
     </a>
     </div>
-    <div class="work-card-wrapper" data-category="philosophy">
-    <a href="https://mp.weixin.qq.com/s/Pmqkx_T-p0sMtAHjw4_Lsg" target="_blank" style="text-decoration:none;color:inherit">
-    <div class="work-card">
-      <div class="work-tag">哲学视角</div>
-      <h3>命运：你想拥有什么，先要"成为"那个拥有它的人</h3>
-      <p>拥有之前，先成为。</p>
-    </div>
+    <div class="work-item" data-category="philosophy">
+    <a href="https://mp.weixin.qq.com/s/Pmqkx_T-p0sMtAHjw4_Lsg" target="_blank" style="text-decoration:none;color:inherit;display:flex;flex:1">
+      <div class="work-body">
+        <span class="work-tag">哲学视角</span>
+        <h3>命运：你想拥有什么，先要"成为"那个拥有它的人</h3>
+        <p>拥有之前，先成为。</p>
+        <span class="work-read-link">阅读全文 →</span>
+      </div>
+      <div class="work-art">
+        <svg viewBox="0 0 80 80" fill="none">
+          <ellipse cx="40" cy="45" rx="20" ry="12" stroke="#b58a3a" stroke-width="1" opacity="0.3" fill="none"/>
+          <ellipse cx="40" cy="40" rx="15" ry="9" stroke="#b58a3a" stroke-width="1.5" opacity="0.5" fill="none"/>
+          <path d="M35 40 L40 35 L45 40 L40 45 Z" fill="#b58a3a" opacity="0.3"/>
+          <circle cx="40" cy="40" r="3" fill="#b58a3a" opacity="0.5"/>
+        </svg>
+      </div>
     </a>
     </div>
-    <div class="work-card-wrapper" data-category="philosophy">
-    <a href="https://mp.weixin.qq.com/s/oQuU05iKu2ley-V-cctXXg" target="_blank" style="text-decoration:none;color:inherit">
-    <div class="work-card">
-      <div class="work-tag">哲学视角</div>
-      <h3>时间真相</h3>
-      <p>关于时间的另一种理解。</p>
-    </div>
+    <div class="work-item" data-category="philosophy">
+    <a href="https://mp.weixin.qq.com/s/oQuU05iKu2ley-V-cctXXg" target="_blank" style="text-decoration:none;color:inherit;display:flex;flex:1">
+      <div class="work-body">
+        <span class="work-tag">哲学视角</span>
+        <h3>时间真相</h3>
+        <p>关于时间的另一种理解。</p>
+        <span class="work-read-link">阅读全文 →</span>
+      </div>
+      <div class="work-art">
+        <svg viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="22" stroke="#c47a4a" stroke-width="1" opacity="0.3" fill="none"/>
+          <path d="M40 25 L40 40 L50 45" stroke="#c47a4a" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+          <circle cx="40" cy="40" r="3" fill="#c47a4a" opacity="0.4"/>
+          <circle cx="40" cy="18" r="2" fill="#c47a4a" opacity="0.3"/>
+          <circle cx="40" cy="62" r="2" fill="#c47a4a" opacity="0.3"/>
+        </svg>
+      </div>
     </a>
     </div>
-    <div class="work-card-wrapper" data-category="growth">
-    <a href="https://mp.weixin.qq.com/s/Ep6xagqo3goFbmAUzB60HQ" target="_blank" style="text-decoration:none;color:inherit">
-    <div class="work-card">
-      <div class="work-tag">成长感悟</div>
-      <h3>我的人生 没有什么必须要做的事......除了成为自己</h3>
-      <p>唯一必须要做的事。</p>
-    </div>
+    <div class="work-item" data-category="growth">
+    <a href="https://mp.weixin.qq.com/s/Ep6xagqo3goFbmAUzB60HQ" target="_blank" style="text-decoration:none;color:inherit;display:flex;flex:1">
+      <div class="work-body">
+        <span class="work-tag">成长感悟</span>
+        <h3>我的人生 没有什么必须要做的事......除了成为自己</h3>
+        <p>唯一必须要做的事。</p>
+        <span class="work-read-link">阅读全文 →</span>
+      </div>
+      <div class="work-art">
+        <svg viewBox="0 0 80 80" fill="none">
+          <path d="M25 60 Q30 35 40 40 Q50 45 55 25" stroke="#b84a6a" stroke-width="1.5" opacity="0.4" stroke-linecap="round" fill="none"/>
+          <path d="M35 60 Q38 30 45 35 Q52 40 60 20" stroke="#b84a6a" stroke-width="1" opacity="0.25" stroke-linecap="round" fill="none"/>
+          <circle cx="40" cy="40" r="3" fill="#b84a6a" opacity="0.5"/>
+          <circle cx="55" cy="25" r="2" fill="#b84a6a" opacity="0.4"/>
+          <circle cx="25" cy="60" r="2" fill="#b84a6a" opacity="0.3"/>
+        </svg>
+      </div>
     </a>
     </div>
   </div>
@@ -451,7 +541,7 @@ document.querySelectorAll('.nav-links a').forEach(a => {
 function filterWorks(category) {
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
-  document.querySelectorAll('.work-card-wrapper').forEach(w => {
+  document.querySelectorAll('.work-item').forEach(w => {
     w.style.display = (category === 'all' || w.dataset.category === category) ? '' : 'none';
   });
 }
@@ -465,7 +555,7 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-document.querySelectorAll('.work-card, .tl-item, .thought-item').forEach(el => {
+document.querySelectorAll('.work-item, .tl-item, .thought-item').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
