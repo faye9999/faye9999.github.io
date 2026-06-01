@@ -102,26 +102,29 @@
     width: 40px; height: 3px; background: var(--accent);
   }
 
-  .exp-block { margin-bottom: 48px; }
-  .exp-block:last-child { margin-bottom: 0; }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .exp-col { }
   .exp-header {
     font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
-    font-size: 18px; font-weight: 600; margin-bottom: 20px;
-    padding-left: 16px; border-left: 3px solid var(--accent);
+    font-size: 16px; font-weight: 600; margin-bottom: 20px;
+    padding-left: 14px; border-left: 3px solid var(--accent);
     color: var(--text); letter-spacing: 1px;
   }
-  .exp-row {
-    display: flex; gap: 24px; padding: 0;
+  .exp-card {
+    margin-bottom: 24px; padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
   }
-  .exp-row .exp-card {
-    flex: 1; padding: 20px; border-radius: 8px;
-    background: transparent; border: 1px solid var(--border);
-    transition: border-color 0.3s;
+  .exp-card:last-child {
+    margin-bottom: 0; padding-bottom: 0; border-bottom: none;
   }
-  .exp-row .exp-card:hover { border-color: var(--accent); }
   .exp-date {
-    font-size: 12px; color: var(--accent); font-weight: 500;
-    letter-spacing: 1px; margin-bottom: 6px;
+    font-size: 11px; color: var(--accent); font-weight: 500;
+    letter-spacing: 1px; margin-bottom: 4px;
   }
   .exp-card-title {
     font-weight: 600; font-size: 14px; margin-bottom: 6px; line-height: 1.5;
@@ -317,20 +320,17 @@
 
 <section id="about">
   <h2 class="section-title">经历</h2>
-  <div class="exp-block">
-    <h3 class="exp-header">工作经历</h3>
-    <div class="exp-row">
+  <div class="exp-grid">
+    <div class="exp-col">
+      <h3 class="exp-header">工作经历</h3>
       <div class="exp-card">
         <div class="exp-date">NOW</div>
         <div class="exp-card-title">央媒 · 访谈节目编导 / 记者</div>
         <div class="exp-card-desc">负责访谈节目全流程策划与执行，嘉宾覆盖政府官员、研究院学者、各领域专家。独立完成选题策划、采访提纲、现场录制、后期制作。同期运营个人内容IP。</div>
       </div>
     </div>
-  </div>
-
-  <div class="exp-block">
-    <h3 class="exp-header">实习经历</h3>
-    <div class="exp-row">
+    <div class="exp-col">
+      <h3 class="exp-header">实习经历</h3>
       <div class="exp-card">
         <div class="exp-date">2024.04-07</div>
         <div class="exp-card-title">百度智能云 · 市场专员</div>
@@ -357,11 +357,8 @@
         <div class="exp-card-desc">参与春晚宣传策划；"袁隆平话题"视频被人民日报、光明日报双发布，微博222万播放。</div>
       </div>
     </div>
-  </div>
-
-  <div class="exp-block">
-    <h3 class="exp-header">教育背景</h3>
-    <div class="exp-row">
+    <div class="exp-col">
+      <h3 class="exp-header">教育背景</h3>
       <div class="exp-card">
         <div class="exp-date">2022.09-2025.06</div>
         <div class="exp-card-title">首都经济贸易大学 · 新闻传播学硕士</div>
