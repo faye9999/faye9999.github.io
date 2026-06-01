@@ -557,7 +557,7 @@ document.querySelectorAll('.nav-links a').forEach(a => {
 function filterWorks(category) {
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
-  document.querySelectorAll('.work-item').forEach(w => {
+  document.querySelectorAll('#works .work-item').forEach(w => {
     w.style.display = (category === 'all' || w.dataset.category === category) ? '' : 'none';
   });
 }
