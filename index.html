@@ -102,42 +102,29 @@
     width: 40px; height: 3px; background: var(--accent);
   }
 
-  .exp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    align-items: start;
-  }
-  .exp-col {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 28px 24px;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .exp-col:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 35px rgba(0,0,0,0.06);
-  }
-  .exp-col-title {
+  .exp-block { margin-bottom: 48px; }
+  .exp-block:last-child { margin-bottom: 0; }
+  .exp-header {
     font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
-    font-size: 16px; font-weight: 600; margin-bottom: 20px;
-    padding-bottom: 10px; border-bottom: 2px solid var(--accent);
+    font-size: 18px; font-weight: 600; margin-bottom: 20px;
+    padding-left: 16px; border-left: 3px solid var(--accent);
     color: var(--text); letter-spacing: 1px;
   }
-  .exp-card {
-    margin-bottom: 18px; padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
+  .exp-row {
+    display: flex; gap: 24px; padding: 0;
   }
-  .exp-card:last-of-type {
-    margin-bottom: 0; padding-bottom: 0; border-bottom: none;
+  .exp-row .exp-card {
+    flex: 1; padding: 20px; border-radius: 8px;
+    background: transparent; border: 1px solid var(--border);
+    transition: border-color 0.3s;
   }
+  .exp-row .exp-card:hover { border-color: var(--accent); }
   .exp-date {
-    font-size: 11px; color: var(--accent); font-weight: 500;
-    letter-spacing: 1px; margin-bottom: 3px;
+    font-size: 12px; color: var(--accent); font-weight: 500;
+    letter-spacing: 1px; margin-bottom: 6px;
   }
   .exp-card-title {
-    font-weight: 600; font-size: 14px; margin-bottom: 5px; line-height: 1.5;
+    font-weight: 600; font-size: 14px; margin-bottom: 6px; line-height: 1.5;
   }
   .exp-card-desc {
     font-size: 13px; color: var(--text-light); line-height: 1.7;
@@ -301,6 +288,7 @@
     .works-grid { grid-template-columns: 1fr; }
     .work-item a { padding: 20px; }
     .exp-grid { grid-template-columns: 1fr; }
+    .exp-row { flex-direction: column; }
   }
 </style>
 </head>
@@ -329,20 +317,20 @@
 
 <section id="about">
   <h2 class="section-title">经历</h2>
-  <div class="exp-grid">
-    <!-- 工作经历 -->
-    <div class="exp-col">
-      <h3 class="exp-col-title">工作经历</h3>
+  <div class="exp-block">
+    <h3 class="exp-header">工作经历</h3>
+    <div class="exp-row">
       <div class="exp-card">
         <div class="exp-date">NOW</div>
         <div class="exp-card-title">央媒 · 访谈节目编导 / 记者</div>
         <div class="exp-card-desc">负责访谈节目全流程策划与执行，嘉宾覆盖政府官员、研究院学者、各领域专家。独立完成选题策划、采访提纲、现场录制、后期制作。同期运营个人内容IP。</div>
       </div>
     </div>
+  </div>
 
-    <!-- 实习经历 -->
-    <div class="exp-col">
-      <h3 class="exp-col-title">实习经历</h3>
+  <div class="exp-block">
+    <h3 class="exp-header">实习经历</h3>
+    <div class="exp-row">
       <div class="exp-card">
         <div class="exp-date">2024.04-07</div>
         <div class="exp-card-title">百度智能云 · 市场专员</div>
@@ -369,10 +357,11 @@
         <div class="exp-card-desc">参与春晚宣传策划；"袁隆平话题"视频被人民日报、光明日报双发布，微博222万播放。</div>
       </div>
     </div>
+  </div>
 
-    <!-- 教育背景 -->
-    <div class="exp-col">
-      <h3 class="exp-col-title">教育背景</h3>
+  <div class="exp-block">
+    <h3 class="exp-header">教育背景</h3>
+    <div class="exp-row">
       <div class="exp-card">
         <div class="exp-date">2022.09-2025.06</div>
         <div class="exp-card-title">首都经济贸易大学 · 新闻传播学硕士</div>
