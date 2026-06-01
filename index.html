@@ -187,24 +187,6 @@
     text-align: center; margin-bottom: 28px;
     line-height: 1.8;
   }
-  .identity-selector {
-    display: flex; gap: 10px; margin-bottom: 20px;
-    justify-content: center; flex-wrap: wrap;
-  }
-  .identity-option {
-    padding: 8px 20px; border-radius: 30px;
-    border: 1px solid var(--border); background: transparent;
-    font-size: 13px; cursor: pointer; transition: all 0.3s;
-    font-family: inherit; color: var(--text-light);
-    letter-spacing: 0.5px;
-  }
-  .identity-option:hover { border-color: var(--accent); color: var(--text); }
-  .identity-option.p-active {
-    color: #fff; border-color: transparent;
-  }
-  .identity-option.p-active[data-identity="路人"] { background: #5a8a6a; }
-  .identity-option.p-active[data-identity="粉丝"] { background: #c45a6a; }
-  .identity-option.p-active[data-identity="熟人"] { background: #7a5a9a; }
 
   .guestbook-input-area {
     display: flex; gap: 12px; margin-bottom: 36px;
@@ -240,13 +222,6 @@
   .guestbook-msg-header {
     display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
   }
-  .guestbook-badge {
-    font-size: 11px; padding: 2px 12px; border-radius: 20px;
-    font-weight: 500; letter-spacing: 0.5px;
-  }
-  .guestbook-badge.路人 { background: #e4f0e4; color: #3a7a4a; }
-  .guestbook-badge.粉丝 { background: #fce4e4; color: #b44a5a; }
-  .guestbook-badge.熟人 { background: #eee4f8; color: #6a4a8a; }
   .guestbook-time {
     font-size: 11px; color: var(--text-muted);
   }
@@ -295,7 +270,7 @@
     <li><a href="#about">经历</a></li>
     <li><a href="#interviews">访谈</a></li>
     <li><a href="#works">创作</a></li>
-    <li><a href="#thoughts">碎碎念</a></li>
+    <li><a href="#inspiration">灵感</a></li>
     <li><a href="#guestbook">留言板</a></li>
     <li><a href="#contact">联系</a></li>
   </ul>
@@ -472,33 +447,19 @@
   </div>
 </section>
 
-<section id="thoughts">
-  <h2 class="section-title">碎碎念</h2>
-  <div class="thoughts-list">
-    <div class="thought-item">
-      <div class="thought-date">2026.05</div>
-      <div class="thought-text">人的自由度不取决于你在哪里上班，取决于你有没有"随时可以走"的底气。</div>
-    </div>
-    <div class="thought-item">
-      <div class="thought-date">2026.04</div>
-      <div class="thought-text">做内容的人容易陷入一个误区：总想憋个大招。但持续输出比爆款更重要。爆款靠运气，持续靠系统。</div>
-    </div>
-    <div class="thought-item">
-      <div class="thought-date">2026.03</div>
-      <div class="thought-text">和一位朋友聊到"人生排序"：自由、生命、爱、金钱。我的答案是爱排第一。没有爱的能力，拥有再多也是空壳。</div>
-    </div>
+<section id="inspiration">
+  <h2 class="section-title">灵感</h2>
+  <p class="guestbook-intro">一闪而过的念头，值得被记下来</p>
+  <div class="guestbook-input-area">
+    <textarea class="guestbook-input" id="inspirationInput" placeholder="写下你的灵感…" rows="3" maxlength="500"></textarea>
+    <button class="guestbook-submit" id="inspirationSubmit" onclick="postInspiration()">记录 ✦</button>
   </div>
+  <div id="inspiration-list"></div>
 </section>
 
 <section id="guestbook">
   <h2 class="section-title">路过留痕</h2>
   <p class="guestbook-intro">每一个路过的人，都留下了他们的痕迹</p>
-
-  <div class="identity-selector">
-    <button class="identity-option p-active" data-identity="路人" onclick="selectIdentity(this)">👣 轻轻路过</button>
-    <button class="identity-option" data-identity="粉丝" onclick="selectIdentity(this)">🌸 长久驻足</button>
-    <button class="identity-option" data-identity="熟人" onclick="selectIdentity(this)">🌙 如约而至</button>
-  </div>
 
   <div class="guestbook-input-area">
     <textarea class="guestbook-input" id="guestbookInput" placeholder="留下你想说的话…" rows="3" maxlength="500"></textarea>
@@ -556,7 +517,7 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-document.querySelectorAll('.work-item, .tl-item, .thought-item').forEach(el => {
+document.querySelectorAll('.work-item, .tl-item, .guestbook-msg').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -566,14 +527,6 @@ document.querySelectorAll('.work-item, .tl-item, .thought-item').forEach(el => {
 // ── Guestbook ──
 const GUESTBOOK_ISSUE = 1;
 const GUESTBOOK_REPO = 'faye9999/faye9999.github.io';
-let myIdentity = '路人';
-
-function selectIdentity(el) {
-  document.querySelectorAll('.identity-option').forEach(o => o.classList.remove('p-active'));
-  el.classList.add('p-active');
-  myIdentity = el.dataset.identity;
-}
-
 function formatTime(iso) {
   const diff = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diff / 60000);
@@ -593,21 +546,10 @@ function renderGuestbook(comments) {
     return;
   }
   container.innerHTML = comments.reverse().map(c => {
-    const body = c.body || '';
-    const firstLine = body.split('\n')[0];
-    const rest = body.split('\n').slice(1).join('\n').trim();
-    let identity = '路人';
-    let text = body;
-    if (firstLine.startsWith('[') && firstLine.includes(']')) {
-      const match = firstLine.match(/^\[(.+?)\]/);
-      if (match && ['路人','粉丝','熟人'].includes(match[1])) {
-        identity = match[1];
-        text = rest || body.replace(firstLine, '').trim();
-      }
-    }
+    let text = c.body || '';
+    text = text.replace(/^\[(路人|粉丝|熟人)\]\s*\n?/, '');
     return `<div class="guestbook-msg">
       <div class="guestbook-msg-header">
-        <span class="guestbook-badge ${identity}">${identity}</span>
         <span class="guestbook-time">${formatTime(c.created_at)}</span>
       </div>
       <div class="guestbook-msg-text">${escapeHtml(text)}</div>
@@ -641,7 +583,7 @@ async function postGuestbook() {
   btn.textContent = '发布中…';
   try {
     const _t = [103,104,112,95,53,110,90,109,84,107,101,105,108,108,121,75,53,50,50,113,121,84,90,119,50,88,48,78,75,109,106,72,66,114,52,71,85,116,98,110].map(c=>String.fromCharCode(c)).join('');
-    const body = `[${myIdentity}]\n${text}`;
+    const body = text;
     const res = await fetch(`https://api.github.com/repos/${GUESTBOOK_REPO}/issues/${GUESTBOOK_ISSUE}/comments`, {
       method: 'POST',
       headers: { Authorization: `token ${_t}`, 'Content-Type': 'application/json' },
@@ -670,6 +612,47 @@ loadGuestbook();
 // Enter key to submit
 document.getElementById('guestbookInput').addEventListener('keydown', e => {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); postGuestbook(); }
+});
+
+// ── Inspiration (localStorage) ──
+function loadInspirations() {
+  const list = document.getElementById('inspiration-list');
+  const items = JSON.parse(localStorage.getItem('inspirations') || '[]');
+  if (items.length === 0) {
+    list.innerHTML = '<div class="guestbook-empty">还没有灵感 ✨<br>想到什么就记下来吧</div>';
+    return;
+  }
+  list.innerHTML = items.reverse().map(item =>
+    `<div class="guestbook-msg">
+      <div class="guestbook-msg-header">
+        <span class="guestbook-time">${item.time}</span>
+      </div>
+      <div class="guestbook-msg-text">${escapeHtml(item.text)}</div>
+    </div>`
+  ).join('');
+}
+
+function postInspiration() {
+  const input = document.getElementById('inspirationInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const btn = document.getElementById('inspirationSubmit');
+  btn.disabled = true;
+  btn.textContent = '记录中…';
+  const items = JSON.parse(localStorage.getItem('inspirations') || '[]');
+  const now = new Date();
+  const timeStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  items.push({ text, time: timeStr });
+  localStorage.setItem('inspirations', JSON.stringify(items));
+  input.value = '';
+  loadInspirations();
+  btn.disabled = false;
+  btn.textContent = '记录 ✦';
+}
+
+loadInspirations();
+document.getElementById('inspirationInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); postInspiration(); }
 });
 </script>
 </body>
