@@ -90,7 +90,7 @@
   @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
 
-  section { padding: 100px 24px; max-width: 800px; margin: 0 auto; }
+  section { padding: 100px 24px; max-width: 960px; margin: 0 auto; }
   .section-title {
     font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
     font-size: 28px; font-weight: 600; margin-bottom: 48px;
@@ -102,27 +102,46 @@
     width: 40px; height: 3px; background: var(--accent);
   }
 
-  .timeline { position: relative; padding-left: 32px; }
-  .timeline::before {
-    content: '';
-    position: absolute; left: 7px; top: 8px; bottom: 8px;
-    width: 1.5px; background: var(--border);
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
   }
-  .tl-item { position: relative; margin-bottom: 36px; }
-  .tl-dot {
-    position: absolute; left: -28px; top: 6px;
-    width: 12px; height: 12px; border-radius: 50%;
-    background: var(--accent); border: 3px solid var(--bg);
+  .exp-col {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-  .tl-year { font-size: 13px; color: var(--accent); font-weight: 500; letter-spacing: 1px; margin-bottom: 4px; }
-  .tl-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-  .tl-desc { font-size: 14px; color: var(--text-light); }
-  .tl-section {
-    position: relative; margin: 32px 0 16px; padding-left: 32px;
-    font-size: 11px; color: var(--text-muted); letter-spacing: 2px; font-weight: 500;
+  .exp-col:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.06);
   }
-  .tl-item.tl-compact { margin-bottom: 20px; }
-  .tl-item.tl-compact .tl-desc { font-size: 13px; }
+  .exp-col-title {
+    font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+    font-size: 16px; font-weight: 600; margin-bottom: 20px;
+    padding-bottom: 10px; border-bottom: 2px solid var(--accent);
+    color: var(--text); letter-spacing: 1px;
+  }
+  .exp-card {
+    margin-bottom: 18px; padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-card:last-of-type {
+    margin-bottom: 0; padding-bottom: 0; border-bottom: none;
+  }
+  .exp-date {
+    font-size: 11px; color: var(--accent); font-weight: 500;
+    letter-spacing: 1px; margin-bottom: 3px;
+  }
+  .exp-card-title {
+    font-weight: 600; font-size: 14px; margin-bottom: 5px; line-height: 1.5;
+  }
+  .exp-card-desc {
+    font-size: 13px; color: var(--text-light); line-height: 1.7;
+  }
 
   /* ── Works Grid - 2 columns ── */
   .works-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -281,6 +300,7 @@
     section { padding: 60px 20px; }
     .works-grid { grid-template-columns: 1fr; }
     .work-item a { padding: 20px; }
+    .exp-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -309,66 +329,65 @@
 
 <section id="about">
   <h2 class="section-title">经历</h2>
-  <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-year">NOW</div>
-      <div class="tl-title">央媒 · 访谈节目编导 / 记者</div>
-      <div class="tl-desc">负责访谈节目全流程策划与执行，嘉宾覆盖政府官员、研究院学者、各领域专家。独立完成选题策划、采访提纲、现场录制、后期制作。同期运营个人内容IP，探索深度内容的大众化表达。</div>
+  <div class="exp-grid">
+    <!-- 工作经历 -->
+    <div class="exp-col">
+      <h3 class="exp-col-title">工作经历</h3>
+      <div class="exp-card">
+        <div class="exp-date">NOW</div>
+        <div class="exp-card-title">央媒 · 访谈节目编导 / 记者</div>
+        <div class="exp-card-desc">负责访谈节目全流程策划与执行，嘉宾覆盖政府官员、研究院学者、各领域专家。独立完成选题策划、采访提纲、现场录制、后期制作。同期运营个人内容IP。</div>
+      </div>
     </div>
 
-    <div class="tl-section">实习经历</div>
-
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2024.04-07</div>
-      <div class="tl-title">百度智能云 · 市场专员</div>
-      <div class="tl-desc">千帆杯教育行业赛运营、《对话AI原生》IP访谈栏目、竞品分析与市场调研。</div>
-    </div>
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2023.05-09</div>
-      <div class="tl-title">中国外文局 · 市场策划</div>
-      <div class="tl-desc">策划公关传播活动；撰写《中国文化元宇宙白皮书》；担任央企数字藏品平台项目策划，参与竞标并中标。</div>
-    </div>
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2022.02-06</div>
-      <div class="tl-title">腾讯新闻 · 内容运营</div>
-      <div class="tl-desc">教育频道运营，发掘多篇10万+；策划"2022两会"专题；参与"我们的高考"直播，最高播放23.3万。</div>
-    </div>
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2021.10-2022.01</div>
-      <div class="tl-title">爱享文化 · 策划导演</div>
-      <div class="tl-desc">参与多个节目前期研发与策划，独立完成创意提案。</div>
-    </div>
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2020.12-2021.02</div>
-      <div class="tl-title">湖南卫视 · 宣传导演</div>
-      <div class="tl-desc">参与春晚宣传策划；"袁隆平话题"视频被人民日报、光明日报双发布，微博222万播放。</div>
+    <!-- 实习经历 -->
+    <div class="exp-col">
+      <h3 class="exp-col-title">实习经历</h3>
+      <div class="exp-card">
+        <div class="exp-date">2024.04-07</div>
+        <div class="exp-card-title">百度智能云 · 市场专员</div>
+        <div class="exp-card-desc">千帆杯教育行业赛运营、《对话AI原生》IP访谈栏目、竞品分析与市场调研。</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-date">2023.05-09</div>
+        <div class="exp-card-title">中国外文局 · 市场策划</div>
+        <div class="exp-card-desc">策划公关传播活动；撰写《中国文化元宇宙白皮书》；央企数字藏品平台项目策划，参与竞标并中标。</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-date">2022.02-06</div>
+        <div class="exp-card-title">腾讯新闻 · 内容运营</div>
+        <div class="exp-card-desc">教育频道运营，发掘多篇10万+；策划"2022两会"专题；参与"我们的高考"直播，最高播放23.3万。</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-date">2021.10-2022.01</div>
+        <div class="exp-card-title">爱享文化 · 策划导演</div>
+        <div class="exp-card-desc">参与多个节目前期研发与策划，独立完成创意提案。</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-date">2020.12-2021.02</div>
+        <div class="exp-card-title">湖南卫视 · 宣传导演</div>
+        <div class="exp-card-desc">参与春晚宣传策划；"袁隆平话题"视频被人民日报、光明日报双发布，微博222万播放。</div>
+      </div>
     </div>
 
-    <div class="tl-section">教育背景</div>
-
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2022.09-2025.06</div>
-      <div class="tl-title">首都经济贸易大学 · 新闻传播学硕士</div>
-      <div class="tl-desc">保研，方向跨文化传播。北京"雨燕"奖学金一等奖（前1%），两次学业一等奖学金。发表国家级期刊论文2篇。</div>
-    </div>
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2019.07-2022.06</div>
-      <div class="tl-title">中国传媒大学 · 广播电视编导双学位</div>
-      <div class="tl-desc">电视编辑方向，拓展内容创作专业维度。</div>
-    </div>
-    <div class="tl-item tl-compact">
-      <div class="tl-dot"></div>
-      <div class="tl-year">2018.09-2022.06</div>
-      <div class="tl-title">首都经济贸易大学 · 传播学本科</div>
-      <div class="tl-desc">前30%成绩从安全工程转入传播学。校电视台副台长、广播台主播；北京市优秀毕业生、学业一等奖学金。</div>
+    <!-- 教育背景 -->
+    <div class="exp-col">
+      <h3 class="exp-col-title">教育背景</h3>
+      <div class="exp-card">
+        <div class="exp-date">2022.09-2025.06</div>
+        <div class="exp-card-title">首都经济贸易大学 · 新闻传播学硕士</div>
+        <div class="exp-card-desc">保研，方向跨文化传播。北京"雨燕"奖学金一等奖（前1%），两次学业一等奖学金。发表国家级期刊论文2篇。</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-date">2019.07-2022.06</div>
+        <div class="exp-card-title">中国传媒大学 · 广播电视编导双学位</div>
+        <div class="exp-card-desc">电视编辑方向，拓展内容创作专业维度。</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-date">2018.09-2022.06</div>
+        <div class="exp-card-title">首都经济贸易大学 · 传播学本科</div>
+        <div class="exp-card-desc">前30%成绩从安全工程转入传播学。校电视台副台长、广播台主播；北京市优秀毕业生、学业一等奖学金。</div>
+      </div>
     </div>
   </div>
 </section>
